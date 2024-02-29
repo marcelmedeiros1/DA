@@ -1,4 +1,7 @@
 // By: Gonçalo Leão
+#include <algorithm>
+#include <iostream>
+using namespace std;
 
 bool changeMakingBF(unsigned int C[], unsigned int Stock[], unsigned int n, unsigned int T, unsigned int usedCoins[]) {
     // TODO
@@ -6,9 +9,21 @@ bool changeMakingBF(unsigned int C[], unsigned int Stock[], unsigned int n, unsi
 }
 
 bool changeMakingGR(unsigned int C[], unsigned int Stock[], unsigned int n, unsigned int T, unsigned int usedCoins[]) {
-    // TODO
-    return true;
-}
+
+    for(int i=n-1; i>=0; i--){
+        int q = T/C[i];
+        if(q > Stock[i]){
+            T -= C[i]*Stock[i];
+            usedCoins[i] = Stock[i];
+        }
+        else{
+            T -= C[i]*q;
+            usedCoins[i] = q;
+        }
+    }
+    if(T==0) return true;
+    return false;
+} //O(n)
 
 /// TESTS ///
 #include <gtest/gtest.h>
