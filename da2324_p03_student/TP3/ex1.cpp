@@ -8,32 +8,20 @@ using namespace std;
 template <class T>
 void edmondsKarp(Graph<T> *g, int source, int target) {
     for(auto v : g->getVertexSet()) {
-        for(auto e : v->getAdj()){
+        for(Edge<T>* e : v->getAdj()){
+            Edge<T>* reverse_edge = new Edge<T>(e->getDest(), e->getOrig(), e->getFlow());
+            e->setReverse(reverse_edge);
+            e->getReverse()->setFlow(0);
             e->setFlow(0);
         }
     }
+
 
     while(true){
         for(auto v : g->getVertexSet()){
             v->setVisited(false);
             v->setPath(nullptr);
         }
-        /*vector<Vertex<T>*> path;
-        while(!q.empty()){
-            Vertex<T>* v = q.front();
-            q.pop();
-            path.push_back(v);
-            for(Edge<T>* e : v->getAdj()){
-                if((e->getWeight()-e->getFlow()) > 0){
-                Vertex<T>* w = e->getDest();
-                if(! w->isVisited()){
-                    q.push(w);
-                    w->setVisited(true);
-                }
-            }
-            }
-
-        }*/
         queue<Vertex<T> *> q;
         Vertex<T>* s = g->findVertex(source);
         s->setVisited(true);
@@ -41,8 +29,19 @@ void edmondsKarp(Graph<T> *g, int source, int target) {
         while(!q.empty()){
             auto u = q.front();
             q.pop();
-            if(u->getInfo()==target) break;
-            for(auto e : u->getAdj()){
+            if(u->getInfo()==target){break;}
+            for(Edge<T>* e : u->getAdj()){
+                if((e->getWeight()-e->getFlow()) <= 0){
+                    /*if(e->getOrig()->getIncoming().empty()) break;
+                    vector<Edge<T> *> inc = e->getOrig()->getIncoming();
+                    for(Edge<T>* i : inc){
+                        if(i->getOrig()==u) continue;
+                        Edge<T>* rev = i->getReverse();
+                        if(rev->getWeight()-rev->getFlow() <= 0) continue;
+
+                    }*/
+                    break;
+                }
                 auto v = e->getDest();
                 if(!v->isVisited() && (e->getWeight()-e->getFlow())>0){
                     v->setVisited(true);
@@ -53,10 +52,22 @@ void edmondsKarp(Graph<T> *g, int source, int target) {
         }
         auto t = g->findVertex(target);
         if(!t->isVisited()) break;
-        while(true){
-            auto org = t->getIncoming();
+        auto org = t->getPath();
+        Vertex<T>* s1 = g->findVertex(source);
+        double bottleneck = INF;
+        while(org->getOrig()->getInfo() != source){
+            if((org->getWeight()-org->getFlow()) < bottleneck) bottleneck = org->getWeight()-org->getFlow();
+            org = org->getOrig()->getPath();
         }
-
+        org = t->getPath();
+        while(true){
+            if(org->getOrig()->getInfo() == source){
+                org->setFlow(org->getFlow()+bottleneck);
+                break;
+            }
+            org->setFlow(org->getFlow()+bottleneck);
+            org = org->getOrig()->getPath();
+        }
     }
 }
 

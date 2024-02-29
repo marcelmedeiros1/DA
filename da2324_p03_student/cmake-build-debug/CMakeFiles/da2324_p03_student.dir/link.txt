@@ -1,0 +1,1 @@
+/usr/bin/c++ -g CMakeFiles/da2324_p03_student.dir/data_structures/UFDS.cpp.o CMakeFiles/da2324_p03_student.dir/TP3/ex1.cpp.o CMakeFiles/da2324_p03_student.dir/TP3/ex2.cpp.o CMakeFiles/da2324_p03_student.dir/TP3/ex3.cpp.o -o da2324_p03_student  lib/libgtest.a lib/libgtest_main.a lib/libgtest.a 
