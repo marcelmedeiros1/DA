@@ -4,7 +4,30 @@
 using namespace std;
 
 bool changeMakingBF(unsigned int C[], unsigned int Stock[], unsigned int n, unsigned int T, unsigned int usedCoins[]) {
-    // TODO
+    int curCand[20];
+    bool foundSol=false;
+
+    for(int i=0; i < n; i++){
+        curCand[i] = 0;
+    }
+    int minCoins = INT32_MAX;
+    while(true){
+        int totalValue=0;
+        int totalCoins=0;
+        for(int k=0; k<n; k++){
+            totalValue += C[k]*curCand[k];
+            totalCoins += curCand[k];
+        }
+        if(totalValue == T){
+            foundSol = true;
+            if(totalCoins < minCoins){
+                for(int i=0; i<n; i++){
+                    usedCoins[i] = curCand[i];
+                }
+                minCoins = totalCoins;
+            }
+        }
+    }
     return true;
 }
 

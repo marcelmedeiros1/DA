@@ -2,16 +2,76 @@
 // Updated by DA 2023/2024 Team
 
 #include "../data_structures/Graph.h"
-
 using namespace std;
 
+template <class T>
+void bfsEdmondKarp(Graph<T> *g, int source, int target){
+    std::queue<Vertex<T> *> q;
+    Vertex<T>* s = g->findVertex(source);
+    s->setVisited(true);
+    q.push(s);
+    while(!q.empty()){
+        auto u = q.front();
+        q.pop();
+        if(u->getInfo()==target){break;}
+        bool sat = true;
+        for(Edge<T>* e : u->getAdj()){
+            auto v = e->getDest();
+            if(!v->isVisited() && (e->getWeight()-e->getFlow())>0){
+                sat = false;
+                v->setVisited(true);
+                v->setPath(e);
+                q.push(v);
+            }
+        }
+        if(sat){
+            for(Edge<T>* e : u->getIncoming()){
+                if(e == u->getPath()) continue;
+                if(e->getFlow() > 0){
+                    Edge<T>* reverse = new Edge<T> (e->getDest(), e->getOrig(), e->getFlow());
+                    reverse->setReverse(e);
+                    e->getOrig()->setPath(reverse);
+                    q.push(e->getOrig());
+                    break;
+                }
+            }
+        }
+    }
+}
+template <class T>
+void augmentPath(Graph<T> *g, int source , int target){
+    auto t = g->findVertex(target);
+    auto org = t->getPath();
+
+
+    double bottleneck = INF;
+    while(org->getOrig()->getInfo() != source){
+        if((org->getWeight()-org->getFlow()) < bottleneck) bottleneck = org->getWeight()-org->getFlow();
+        org = org->getOrig()->getPath();
+    }
+
+    org = t->getPath();
+
+    while(true){
+        if(org->getOrig()->getInfo() == source){
+            org->setFlow(org->getFlow()+bottleneck);
+            break;
+        }
+        else if(org->getReverse() != nullptr){
+            org->getReverse()->setFlow(org->getReverse()->getFlow()-bottleneck);
+            org = org->getOrig()->getPath();
+            continue;
+        }
+        else{
+        org->setFlow(org->getFlow()+bottleneck);
+        org = org->getOrig()->getPath();
+    }
+    }
+}
 template <class T>
 void edmondsKarp(Graph<T> *g, int source, int target) {
     for(auto v : g->getVertexSet()) {
         for(Edge<T>* e : v->getAdj()){
-            Edge<T>* reverse_edge = new Edge<T>(e->getDest(), e->getOrig(), e->getFlow());
-            e->setReverse(reverse_edge);
-            e->getReverse()->setFlow(0);
             e->setFlow(0);
         }
     }
@@ -22,54 +82,16 @@ void edmondsKarp(Graph<T> *g, int source, int target) {
             v->setVisited(false);
             v->setPath(nullptr);
         }
-        queue<Vertex<T> *> q;
-        Vertex<T>* s = g->findVertex(source);
-        s->setVisited(true);
-        q.push(s);
-        while(!q.empty()){
-            auto u = q.front();
-            q.pop();
-            if(u->getInfo()==target){break;}
-            for(Edge<T>* e : u->getAdj()){
-                if((e->getWeight()-e->getFlow()) <= 0){
-                    /*if(e->getOrig()->getIncoming().empty()) break;
-                    vector<Edge<T> *> inc = e->getOrig()->getIncoming();
-                    for(Edge<T>* i : inc){
-                        if(i->getOrig()==u) continue;
-                        Edge<T>* rev = i->getReverse();
-                        if(rev->getWeight()-rev->getFlow() <= 0) continue;
 
-                    }*/
-                    break;
-                }
-                auto v = e->getDest();
-                if(!v->isVisited() && (e->getWeight()-e->getFlow())>0){
-                    v->setVisited(true);
-                    v->setPath(e);
-                    q.push(v);
-                }
-            }
-        }
+        bfsEdmondKarp(g, source, target);
+
         auto t = g->findVertex(target);
         if(!t->isVisited()) break;
-        auto org = t->getPath();
-        Vertex<T>* s1 = g->findVertex(source);
-        double bottleneck = INF;
-        while(org->getOrig()->getInfo() != source){
-            if((org->getWeight()-org->getFlow()) < bottleneck) bottleneck = org->getWeight()-org->getFlow();
-            org = org->getOrig()->getPath();
-        }
-        org = t->getPath();
-        while(true){
-            if(org->getOrig()->getInfo() == source){
-                org->setFlow(org->getFlow()+bottleneck);
-                break;
-            }
-            org->setFlow(org->getFlow()+bottleneck);
-            org = org->getOrig()->getPath();
-        }
+
+        augmentPath(g, source, target);
     }
 }
+
 
 /// TESTS ///
 #include <gtest/gtest.h>
