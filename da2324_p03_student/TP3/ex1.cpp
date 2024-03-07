@@ -3,7 +3,7 @@
 
 #include "../data_structures/Graph.h"
 using namespace std;
-
+/*
 template <class T>
 void bfsEdmondKarp(Graph<T> *g, int source, int target){
     std::queue<Vertex<T> *> q;
@@ -67,28 +67,25 @@ void augmentPath(Graph<T> *g, int source , int target){
         org = org->getOrig()->getPath();
     }
     }
-}
+}*/
 template <class T>
 void edmondsKarp(Graph<T> *g, int source, int target) {
-    for(auto v : g->getVertexSet()) {
-        for(Edge<T>* e : v->getAdj()){
+    Vertex<T>* s = g->findVertex(source);
+    Vertex<T>* t = g->findVertex(target);
+
+    if (s == nullptr || t == nullptr || s == t)
+        throw std::logic_error("Invalid source and/or target vertex");
+
+    // Initialize flow on all edges to 0
+    for (auto v : g->getVertexSet()) {
+        for (auto e: v->getAdj()) {
             e->setFlow(0);
         }
     }
 
-
-    while(true){
-        for(auto v : g->getVertexSet()){
-            v->setVisited(false);
-            v->setPath(nullptr);
-        }
-
-        bfsEdmondKarp(g, source, target);
-
-        auto t = g->findVertex(target);
-        if(!t->isVisited()) break;
-
-        augmentPath(g, source, target);
+    while(g->findAugmentingPath(g, s, t) ) {
+        double f = g->findMinResidualAlongPath(s, t);
+        g->augmentFlowAlongPath(s, t, f);
     }
 }
 

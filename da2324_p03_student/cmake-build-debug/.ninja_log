@@ -1,18 +1,10 @@
 # ninja log v5
-1	281	7308471592412994	CMakeFiles/da2324_p03_student.dir/data_structures/UFDS.cpp.obj	371d7e088c70bff5
-17	907	7308471598664422	lib/googletest/googletest/CMakeFiles/gtest_main.dir/src/gtest_main.cc.obj	440da8406be054fa
-7	1267	7308471602265250	CMakeFiles/da2324_p03_student.dir/TP3/ex1.cpp.obj	42f97a5ba5c2822a
-11	1482	7308471604395743	CMakeFiles/da2324_p03_student.dir/TP3/ex3.cpp.obj	58b8a5bf3c296d77
-5	1513	7308471604705816	CMakeFiles/da2324_p03_student.dir/TP3/ex2.cpp.obj	7832241ee66c5235
-14	9926	7308471688835327	lib/googletest/googletest/CMakeFiles/gtest.dir/src/gtest-all.cc.obj	1fbe30f9362be5d2
-9927	10079	7308471690405696	lib/libgtest.a	657f2dc567104fb7
-10079	10120	7308471690815791	lib/libgtest_main.a	9b39ea1d3a440bea
-10120	10500	7308471694566650	da2324_p03_student.exe	e1d5644b2bfc0e65
-3	1045	7308472463490601	CMakeFiles/da2324_p03_student.dir/TP3/ex1.cpp.obj	42f97a5ba5c2822a
-1045	1369	7308472466721342	da2324_p03_student.exe	e1d5644b2bfc0e65
-3	1067	7308473954669477	CMakeFiles/da2324_p03_student.dir/TP3/ex1.cpp.obj	42f97a5ba5c2822a
-1068	1403	7308473958010246	da2324_p03_student.exe	e1d5644b2bfc0e65
-3	1014	7308491423679540	CMakeFiles/da2324_p03_student.dir/TP3/ex1.cpp.obj	42f97a5ba5c2822a
-1015	1336	7308491426880278	da2324_p03_student.exe	e1d5644b2bfc0e65
-4	998	7308491538852590	CMakeFiles/da2324_p03_student.dir/TP3/ex1.cpp.obj	42f97a5ba5c2822a
-999	1315	7308491542003319	da2324_p03_student.exe	e1d5644b2bfc0e65
+0	252	7315269306892764	CMakeFiles/da2324_p03_student.dir/data_structures/UFDS.cpp.obj	371d7e088c70bff5
+15	891	7315269313284220	lib/googletest/googletest/CMakeFiles/gtest_main.dir/src/gtest_main.cc.obj	440da8406be054fa
+9	1272	7315269317085088	CMakeFiles/da2324_p03_student.dir/TP3/ex1.cpp.obj	42f97a5ba5c2822a
+7	1495	7315269319305605	CMakeFiles/da2324_p03_student.dir/TP3/ex3.cpp.obj	58b8a5bf3c296d77
+4	1527	7315269319625680	CMakeFiles/da2324_p03_student.dir/TP3/ex2.cpp.obj	7832241ee66c5235
+12	10061	7315269404962646	lib/googletest/googletest/CMakeFiles/gtest.dir/src/gtest-all.cc.obj	1fbe30f9362be5d2
+10062	10213	7315269406513014	lib/libgtest.a	657f2dc567104fb7
+10213	10257	7315269406963094	lib/libgtest_main.a	9b39ea1d3a440bea
+10257	10624	7315269410583932	da2324_p03_student.exe	e1d5644b2bfc0e65
