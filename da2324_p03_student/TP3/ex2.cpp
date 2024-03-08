@@ -6,7 +6,34 @@
 
 template <class T>
 std::vector<Vertex<T> *> prim(Graph<T> * g) {
-    // TODO
+    vector<Vertex<T>*> res;
+    MutablePriorityQueue<Vertex<T>> A;
+    for(Vertex<T>* v : g->getVertexSet()) {
+        v->setVisited(false);
+        v->setDist(INF);
+        v->setPath(nullptr);
+        A.insert(v);
+    }
+
+    Vertex<T>* s = A.extractMin();
+    s->setDist(0);
+    s->setPath(nullptr);
+    A.insert(s);
+
+    while(!A.empty()){
+        Vertex<T>* u = A.extractMin();
+        u->setVisited(true);
+        res.push_back(u);
+        for(Edge<T>* e : u->getAdj()){
+            Vertex<T>* v = e->getDest();
+            if(v->isVisited()) continue;
+            if(e->getWeight() < v->getDist()){
+                v->setPath(e);
+                v->setDist(e->getWeight());
+            }
+        }
+    }
+
     return g->getVertexSet();
 }
 
